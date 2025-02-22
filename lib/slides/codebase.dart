@@ -20,10 +20,11 @@ class CodebaseContainer extends StatefulWidget {
   const CodebaseContainer({super.key, this.onFileSelect});
 
   @override
-  _CodebaseContainerState createState() => _CodebaseContainerState();
+  State<CodebaseContainer> createState() => CodebaseContainerState();
 }
 
-class _CodebaseContainerState extends State<CodebaseContainer> {
+// Make the state class public to fix the warning
+class CodebaseContainerState extends State<CodebaseContainer> {
   final List<FileItem> files = [
     FileItem(
       name: 'src',
