@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Telemetry extends StatelessWidget {
+  const Telemetry({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

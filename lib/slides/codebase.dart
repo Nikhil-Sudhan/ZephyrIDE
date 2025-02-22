@@ -17,7 +17,7 @@ class FileItem {
 class CodebaseContainer extends StatefulWidget {
   final Function(String content)? onFileSelect;
   
-  const CodebaseContainer({Key? key, this.onFileSelect}) : super(key: key);
+  const CodebaseContainer({super.key, this.onFileSelect});
 
   @override
   _CodebaseContainerState createState() => _CodebaseContainerState();

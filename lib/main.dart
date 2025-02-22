@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:version5/slides/codebase.dart';
 import 'package:version5/slides/extension.dart';
 import 'package:version5/slides/sim.dart';
 import 'package:version5/slides/telemetry.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
-import 'package:path/path.dart' as path;
-import 'package:process_run/process_run.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   runApp(const MapApp());
 }
 
@@ -86,7 +82,8 @@ class _MapScreenState extends State<MapScreen> {
   late final List<SidebarItem> leftSidebarItems;
   final List<SidebarItem> rightSidebarItems = [
     SidebarItem(
-      icon: const Icon(Icons.analytics, color: Colors.white, size: 24),  // Telemetry icon
+      icon: const Icon(Icons.analytics,
+          color: Colors.white, size: 24), // Telemetry icon
       title: 'Telemetry',
       content: Telemetry(),
     ),
@@ -95,7 +92,7 @@ class _MapScreenState extends State<MapScreen> {
   bool _showCommandPalette = false;
   final TextEditingController _commandController = TextEditingController();
   final FocusNode _commandFocusNode = FocusNode();
-  
+
   late final List<Command> commands = [
     Command(
       label: 'New Project',
@@ -119,7 +116,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
     // Replace deprecated RawKeyboard with HardwareKeyboard
     HardwareKeyboard.instance.addHandler(_handleKeyPress);
-    
+
     // Initialize terminal with welcome message
     _terminalController.text = '> Welcome to Zephyr Terminal\n';
 
@@ -131,19 +128,22 @@ print("Hello, welcome to Zephyr!")
     // Initialize sidebar items
     leftSidebarItems = [
       SidebarItem(
-        icon: const Icon(Icons.code, color: Colors.white, size: 24),  // Code icon for Codebase
+        icon: const Icon(Icons.code,
+            color: Colors.white, size: 24), // Code icon for Codebase
         title: 'Codebase',
         content: CodebaseContainer(
           onFileSelect: _handleFileSelect,
         ),
       ),
       SidebarItem(
-        icon: const Icon(Icons.extension, color: Colors.white, size: 24),  // Extension icon
+        icon: const Icon(Icons.extension,
+            color: Colors.white, size: 24), // Extension icon
         title: 'Extensions',
         content: Extension(),
       ),
       SidebarItem(
-        icon: const Icon(Icons.science, color: Colors.white, size: 24),  // Simulation icon
+        icon: const Icon(Icons.science,
+            color: Colors.white, size: 24), // Simulation icon
         title: 'Simulation',
         content: Sim(),
       ),
@@ -156,19 +156,14 @@ print("Hello, welcome to Zephyr!")
         if (leftSelectedTitle == item.title) {
           leftSelectedTitle = null;
           leftSideContent = null;
-          if (item.title == 'Codebase') {
-            showCodeEditor = false;
-          }
+          showCodeEditor = false;
         } else {
           leftSelectedTitle = item.title;
-          leftSideContent = item.content;
-          if (item.title == 'Codebase') {
-            showCodeEditor = true;
-          }
+          leftSideContent = item.title == 'Simulation' ? null : item.content;
+          showCodeEditor = item.title == 'Codebase';
         }
       } else {
         if (rightSelectedTitle == item.title) {
-          // If the same item is tapped again, hide it
           rightSelectedTitle = null;
           rightSideContent = null;
         } else {
@@ -188,15 +183,15 @@ print("Hello, welcome to Zephyr!")
   bool _handleKeyPress(KeyEvent event) {
     if (event is KeyDownEvent) {
       // Command Palette (Ctrl+Shift+P)
-      if (HardwareKeyboard.instance.isControlPressed && 
-          HardwareKeyboard.instance.isShiftPressed && 
+      if (HardwareKeyboard.instance.isControlPressed &&
+          HardwareKeyboard.instance.isShiftPressed &&
           event.logicalKey == LogicalKeyboardKey.keyP) {
         setState(() {
           _showCommandPalette = true;
         });
         return true; // Handle the event
       }
-      
+
       // Run (F5)
       if (event.logicalKey == LogicalKeyboardKey.f5) {
         _runPythonFile();
@@ -253,13 +248,12 @@ print("Hello, welcome to Zephyr!")
                 onPressed: _runPythonFile,
                 tooltip: 'Run (F5)',
               ),
-              const Text('Python', 
-                style: TextStyle(color: Colors.white70)
-              ),
+              const Text('Python', style: TextStyle(color: Colors.white70)),
             ],
           ),
         ),
         // Code editor area
+        // Main content area
         Expanded(
           child: Column(
             children: [
@@ -366,12 +360,14 @@ print("Hello, welcome to Zephyr!")
                     Expanded(
                       child: Container(
                         color: Colors.black,
-                        child: showCodeEditor 
-                          ? _buildCodeEditor()
-                          : const Center(
-                              child: Text('SIM Goes Here',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
+                        child: leftSelectedTitle == 'Simulation'
+                            ? const Sim()
+                            : (showCodeEditor
+                                ? _buildCodeEditor()
+                                : const Center(
+                                    child: Text('Select an option from sidebar',
+                                        style: TextStyle(color: Colors.white)),
+                                  )),
                       ),
                     ),
                     if (rightSideContent != null)
