@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapbox Example</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoibmlja3lqMTIxIiwiYSI6ImNtNnRqbGZ5cDAzaXUyaXIwZ3E4c3RjaG0ifQ.K3TQGKvKy9IHfA95BP-4og'; // Replace with your token
+        const map = new mapboxgl.Map({
+            container: 'map', // ID of the div where the map will be displayed
+            style: 'mapbox://styles/nickyj121/cm6tjxn1o017h01r5h9g03n5o', // Map style
+            center: [77.5946, 12.9716], // Longitude, Latitude (Example: Bangalore)
+            zoom: 10
+        });
+
+        // Add navigation controls
+        map.addControl(new mapboxgl.NavigationControl());
+    </script>
+
+</body>
+</html>
