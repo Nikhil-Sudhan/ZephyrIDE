@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 
 class TelemetryHUD extends StatefulWidget {
+  const TelemetryHUD({super.key});
+
   @override
   _TelemetryHUDState createState() => _TelemetryHUDState();
 }
@@ -72,7 +74,7 @@ class _TelemetryHUDState extends State<TelemetryHUD> {
       child: Stack(
         children: [
           Center(
-            child: Container(
+            child: SizedBox(
               height: 250,
               width: 350,
               child: HorizonWidget()
@@ -116,6 +118,8 @@ class _TelemetryHUDState extends State<TelemetryHUD> {
 }
 
 class HorizonWidget extends StatelessWidget {
+  const HorizonWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
@@ -163,7 +167,7 @@ class HorizonPainter extends CustomPainter {
 
 class CompassWidget extends StatelessWidget {
   final double heading;
-  CompassWidget({required this.heading});
+  const CompassWidget({super.key, required this.heading});
   
   @override
   Widget build(BuildContext context) {
@@ -183,7 +187,7 @@ class CompassWidget extends StatelessWidget {
 
 class SpeedIndicator extends StatelessWidget {
   final double speed;
-  SpeedIndicator({required this.speed});
+  const SpeedIndicator({super.key, required this.speed});
   
   @override
   Widget build(BuildContext context) {
@@ -217,7 +221,7 @@ class SpeedIndicator extends StatelessWidget {
 
 class AltitudeIndicator extends StatelessWidget {
   final double altitude;
-  AltitudeIndicator({required this.altitude});
+  const AltitudeIndicator({super.key, required this.altitude});
   
   @override
   Widget build(BuildContext context) {
@@ -252,7 +256,7 @@ class AltitudeIndicator extends StatelessWidget {
 class BatteryStatus extends StatelessWidget {
   final int battery;
   
-  BatteryStatus({required this.battery});
+  const BatteryStatus({super.key, required this.battery});
   
   @override
   Widget build(BuildContext context) {
@@ -286,7 +290,7 @@ class BatteryStatus extends StatelessWidget {
 class GPSStatus extends StatelessWidget {
   final String gpsSignal;
   
-  GPSStatus({required this.gpsSignal});
+  const GPSStatus({super.key, required this.gpsSignal});
   
   @override
   Widget build(BuildContext context) {

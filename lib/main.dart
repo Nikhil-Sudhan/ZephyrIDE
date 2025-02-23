@@ -4,6 +4,7 @@ import 'package:version5/slides/extension.dart';
 import 'package:version5/slides/sim.dart';
 import 'package:version5/slides/telemetry.dart';
 import 'package:flutter/services.dart';
+import 'package:version5/slides/texteditor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,7 +78,6 @@ class _MapScreenState extends State<MapScreen> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _terminalController = TextEditingController();
 
-  double _terminalHeight = 200.0;
 
   late final List<SidebarItem> leftSidebarItems;
   final List<SidebarItem> rightSidebarItems = [
@@ -216,9 +216,7 @@ print("Hello, welcome to Zephyr!")
   }
 
   void _runPythonFile() {
-    _appendToTerminal('\n> Running Python script...\n');
     _appendToTerminal('> ${_codeController.text}\n');
-    _appendToTerminal('Output: Hello, welcome to the editor!\n');
   }
 
   void _appendToTerminal(String text) {
@@ -234,112 +232,10 @@ print("Hello, welcome to Zephyr!")
   }
 
   Widget _buildCodeEditor() {
-    return Column(
-      children: [
-        // Editor toolbar
-        Container(
-          height: 40,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          color: const Color(0xFF2D2D2D),
-          child: Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.play_arrow, color: Colors.green),
-                onPressed: _runPythonFile,
-                tooltip: 'Run (F5)',
-              ),
-              const Text('Python', style: TextStyle(color: Colors.white70)),
-            ],
-          ),
-        ),
-        // Code editor area
-        // Main content area
-        Expanded(
-          child: Column(
-            children: [
-              // Main editor
-              Expanded(
-                flex: 3,
-                child: Container(
-                  color: const Color(0xFF1E1E1E),
-                  child: TextField(
-                    controller: _codeController,
-                    maxLines: null,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Consolas',
-                      fontSize: 14,
-                    ),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(16),
-                    ),
-                  ),
-                ),
-              ),
-              // Resizable divider
-              MouseRegion(
-                cursor: SystemMouseCursors.resizeRow,
-                child: GestureDetector(
-                  onVerticalDragUpdate: (details) {
-                    setState(() {
-                      _terminalHeight = (_terminalHeight - details.delta.dy)
-                          .clamp(100.0, 400.0);
-                    });
-                  },
-                  child: Container(
-                    height: 4,
-                    color: const Color(0xFF2D2D2D),
-                  ),
-                ),
-              ),
-              // Terminal
-              SizedBox(
-                height: _terminalHeight,
-                child: Container(
-                  color: const Color(0xFF1E1E1E),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        color: const Color(0xFF2D2D2D),
-                        child: const Text(
-                          'TERMINAL',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: _terminalController,
-                          maxLines: null,
-                          readOnly: true,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontFamily: 'Consolas',
-                            fontSize: 12,
-                          ),
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(8),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+    return CodeEditor(
+      codeController: _codeController,
+      terminalController: _terminalController,
+      onRun: _runPythonFile,
     );
   }
 
