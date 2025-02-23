@@ -39,7 +39,7 @@ ZephyrIDE is an integrated development environment (IDE) designed for programmin
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ZephyrIDE.git 
+git clone https://github.com/Nikhil-Sudhan/ZephyrIDE 
 ```
 
 2. Navigate to the project directory:
