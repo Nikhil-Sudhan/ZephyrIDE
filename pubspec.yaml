@@ -43,6 +43,7 @@ dependencies:
   desktop_webview_window: ^0.2.3
   flutter_html: ^3.0.0-beta.2
   html: ^0.15.4
+  flutter_native_view: ^0.0.2
   
 
 dev_dependencies:
